@@ -5,67 +5,403 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비비안(8bibian8) 팬페이지</title>
     <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --accent-color: #00c73c;
+        }
+
         body {
             font-family: 'Apple SD Gothic Neo', sans-serif;
-            background-color: #f4f6f8;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 상단 프로필 및 라이브 상태 카드 */
+        .profile-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .profile-img {
-            width: 120px;
-            height: 120px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #00c73c;
-            margin-bottom: 20px;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 10px;
         }
-        h1 {
-            font-size: 24px;
-            margin: 10px 0;
+        .profile-title {
+            font-size: 22px;
+            margin: 5px 0;
         }
-        p {
-            color: #666;
+        .profile-sub {
+            color: var(--text-sub);
             font-size: 14px;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
-        .btn {
-            display: block;
-            background-color: #00c73c;
-            color: white;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 10px;
+
+        /* 라이브 상태 배지 스타일 */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
             font-weight: bold;
             margin-bottom: 10px;
+        }
+        .status-badge.offline {
+            background-color: #334155;
+            color: #94a3b8;
+        }
+        .status-badge.live {
+            background-color: #ff4757;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .stream-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #f1f5f9;
+            margin-bottom: 5px;
+        }
+        .viewer-count {
+            font-size: 13px;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .btn-soop {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
             transition: 0.2s;
         }
-        .btn:hover {
+        .btn-soop:hover {
             background-color: #00b034;
         }
+
+        /* 클립 그리드 섹션 */
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .clip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .clip-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .clip-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .thumbnail-box {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background-color: #000;
+        }
+        .thumbnail-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 199, 60, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        .duration-tag {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .clip-info {
+            padding: 12px;
+        }
+        .clip-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 36px;
+        }
+        .clip-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* 모달 팝업 플레이어 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            background: #181e29;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #2d3748;
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title { font-size: 16px; font-weight: bold; margin: 0; }
+        .modal-close { background: none; border: none; color: var(--text-sub); font-size: 20px; cursor: pointer; }
+        .modal-close:hover { color: white; }
+
+        .player-box {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+        }
+        .player-box iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-sub);
+            background: #111622;
+        }
+        .soop-link { color: var(--text-sub); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+        .soop-link:hover { color: white; text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <img src="https://placehold.co/120" alt="비비안 프로필" class="profile-img">
-        <h1>SOOP 스트리머 비비안</h1>
-        <p>8bibian8 팬페이지에 오신 것을 환영합니다! ✨</p>
-        
-        <!-- SOOP 방송국 링크 -->
-        <a href="https://play.sooplive.co.kr/8bibian8" class="btn" target="_blank">📺 SOOP 방송국 바로가기</a>
+
+    <div class="container">
+        <!-- 상단 프로필 및 실시간 방송 상태 -->
+        <div class="profile-card">
+            <img id="profile-image" src="https://placehold.co/90" alt="프로필" class="profile-img">
+            <h1 class="profile-title">스트리머 비비안</h1>
+            <p class="profile-sub">8bibian8 팬페이지 ✨</p>
+            
+            <div id="live-status" class="status-badge offline">방송 정보 확인 중...</div>
+            <div id="stream-title" class="stream-title"></div>
+            <div id="viewer-count" class="viewer-count"></div>
+
+            <br>
+            <a href="https://play.sooplive.co.kr/8bibian8" target="_blank" class="btn-soop">📺 SOOP 방송국 바로가기</a>
+        </div>
+
+        <!-- 클립 목록 섹션 -->
+        <div class="section-title">🎬 최신 실시간 자동 연동 클립</div>
+        <div id="clip-grid" class="clip-grid">
+            <div style="color: #94a3b8; grid-column: 1/-1; text-align: center; padding: 40px 0;">
+                클립 데이터를 불러오는 중입니다...
+            </div>
+        </div>
     </div>
+
+    <!-- 클립 재생 모달 팝업 -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title" class="modal-title"></h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="player-box">
+                <iframe id="modal-player" src="" allowfullscreen></iframe>
+            </div>
+            <div class="modal-footer">
+                <span id="modal-date"></span>
+                <a id="modal-soop-link" href="#" target="_blank" class="soop-link">SOOP 플레이어 원본 보기 ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const streamerId = '8bibian8';
+
+        // 1. 실시간 방송 상태 가져오기
+        async function fetchStreamStatus() {
+            try {
+                const response = await fetch(`https://live.sooplive.co.kr/afreeca/get_live_stat.php?bjid=${streamerId}`);
+                const data = await response.json();
+
+                const statusBadge = document.getElementById('live-status');
+                const streamTitle = document.getElementById('stream-title');
+                const viewerCount = document.getElementById('viewer-count');
+                const profileImg = document.getElementById('profile-image');
+
+                if (data && data.RESULT === 1) {
+                    statusBadge.className = 'status-badge live';
+                    statusBadge.innerText = '🔴 LIVE 지금 방송 중!';
+                    streamTitle.innerText = data.TITLE || '';
+                    viewerCount.innerText = `👁️ 시청자 ${Number(data.VIEW_CNT || 0).toLocaleString()}명`;
+
+                    if(data.PROFILE_IMG) {
+                        profileImg.src = data.PROFILE_IMG;
+                    }
+                } else {
+                    statusBadge.className = 'status-badge offline';
+                    statusBadge.innerText = '⚪ OFFLINE (방송 중 아님)';
+                    streamTitle.innerText = '';
+                    viewerCount.innerText = '';
+                }
+            } catch (error) {
+                console.error('방송 상태 확인 실패:', error);
+                document.getElementById('live-status').innerText = '⚪ OFFLINE';
+            }
+        }
+
+        // 2. 자동 크롤링된 clips.json에서 클립 목록 불러오기
+        async function loadClips() {
+            const grid = document.getElementById('clip-grid');
+            try {
+                const response = await fetch('./clips.json');
+                if(!response.ok) throw new Error('파일 없음');
+                
+                const clips = await response.json();
+
+                if(!clips || clips.length === 0) {
+                    grid.innerHTML = '<div style="color: #94a3b8; grid-column: 1/-1; text-align: center;">등록된 클립이 없습니다.</div>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+                clips.forEach(clip => {
+                    const card = document.createElement('div');
+                    card.className = 'clip-card';
+                    card.onclick = () => openModal(clip);
+
+                    card.innerHTML = `
+                        <div class="thumbnail-box">
+                            <img src="${clip.thumb}" class="thumbnail-img" alt="${clip.title}">
+                            <div class="play-icon">▶</div>
+                            <div class="duration-tag">${clip.duration}</div>
+                        </div>
+                        <div class="clip-info">
+                            <div class="clip-title">${clip.title}</div>
+                            <div class="clip-meta">
+                                <span>${clip.date}</span>
+                                <span>조회수 ${clip.views}회</span>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (e) {
+                grid.innerHTML = '<div style="color: #94a3b8; grid-column: 1/-1; text-align: center; padding: 30px;">아직 자동 수집된 클립 데이터가 없습니다.<br>GitHub Actions 첫 번째 실행을 완료해 주세요!</div>';
+            }
+        }
+
+        // 모달창 열기
+        function openModal(clip) {
+            document.getElementById('modal-title').innerText = clip.title;
+            document.getElementById('modal-date').innerText = `등록일: ${clip.date}`;
+            document.getElementById('modal-soop-link').href = clip.clipUrl;
+            document.getElementById('modal-player').src = clip.embedUrl;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        // 모달창 닫기
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.getElementById('modal-player').src = '';
+        }
+
+        document.getElementById('modal').onclick = (e) => {
+            if (e.target.id === 'modal') closeModal();
+        };
+
+        // 최초 실행 및 주기적 갱신 (방송 상태는 30초마다 체크)
+        fetchStreamStatus();
+        setInterval(fetchStreamStatus, 30000);
+
+        loadClips();
+    </script>
 </body>
 </html>
