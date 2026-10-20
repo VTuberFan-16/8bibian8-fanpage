@@ -23,14 +23,20 @@
 
         <!-- 애청자 수 차트 섹션 -->
         <section class="card">
-            <h2>📈 일자별 애청자 수 추이</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>📈 애청자 수 추이</h2>
+                <div>
+                    <button onclick="switchView('daily')" id="btn-daily" class="active-btn">일별 (10일)</button>
+                    <button onclick="switchView('weekly')" id="btn-weekly">주별 (10주)</button>
+                </div>
+            </div>
             <canvas id="followerChart"></canvas>
         </section>
 
         <!-- 최신 클립 섹션 -->
         <section class="card">
             <h2>🎬 최신 클립 모음</h2>
-            <div id="clips-container" class="grid-container">클립 불러오는 중...</div>
+            <div id="clips-container" class="grid-container">클립을 불러오는 중...</div>
         </section>
 
         <!-- 타 스트리머 콘텐츠 / 방명록 섹션 -->
