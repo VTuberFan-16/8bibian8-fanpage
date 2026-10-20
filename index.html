@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스트리머 팬 커뮤니티 대시보드</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 차트 라이브러리 (Chart.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>🌟 스트리머 팬 페이지</h1>
+        <p>일자별 애청자 수, 최신 클립 및 팬 커뮤니티</p>
+    </header>
+
+    <main>
+        <!-- 스트리머 공지 섹션 -->
+        <section class="card">
+            <h2>📢 스트리머 공지사항</h2>
+            <div id="notice-box">공지사항을 불러오는 중...</div>
+        </section>
+
+        <!-- 애청자 수 차트 섹션 -->
+        <section class="card">
+            <h2>📈 일자별 애청자 수 추이</h2>
+            <canvas id="followerChart"></canvas>
+        </section>
+
+        <!-- 최신 클립 섹션 -->
+        <section class="card">
+            <h2>🎬 최신 클립 모음</h2>
+            <div id="clips-container" class="grid-container">클립 불러오는 중...</div>
+        </section>
+
+        <!-- 타 스트리머 콘텐츠 / 방명록 섹션 -->
+        <section class="card">
+            <h2>✍️ 팬 방명록 및 정보 공유</h2>
+            <div class="guestbook-form">
+                <input type="text" id="writer" placeholder="닉네임">
+                <textarea id="content" placeholder="다른 스트리머 콘텐츠 정보나 응원 메시지를 남겨주세요!"></textarea>
+                <button onclick="addPost()">등록하기</button>
+            </div>
+            <ul id="post-list"></ul>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
