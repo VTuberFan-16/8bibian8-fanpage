@@ -6,7 +6,7 @@ import urllib.request
 # ==========================================
 # 설정 영역 (본인 정보로 수정하세요)
 # ==========================================
-SOOP_CLIENT_ID = "3312d003539922ff1c72672520abe548"  # 발급받은 SOOP Client ID
+SOOP_CLIENT_ID = "685201eae589154749b480fd8263603f484010013b6d4b1b0eeace434cc176e0"  # 발급받은 SOOP Client ID
 STREAMER_ID = "8bibian8"            # 예: afreecatv
 
 DATA_FILE = "data.json"
